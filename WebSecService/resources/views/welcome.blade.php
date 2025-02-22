@@ -10,15 +10,17 @@
 
 @php($j = 5)
 <body>
-    <div class="card m-4 col-sm-2">
-        <div class="card-header">{{$j}} Multiplication Table</div>
+    <div class="card">
+        <div class="card-header">Even Numbers</div>
         <div class="card-body">
-        <table>
-            @foreach (range(1, 10) as $i)
-        <tr><td>{{$i}} * {{$j}}</td><td> = {{ $i * $j }}</td></li>    
-            @endforeach
-        </table>
-        </div>
+        @foreach (range(1, 100) as $i)
+        @if($i%2==0)
+            <span class="badge bg-primary">{{$i}}</span>  
+        @else
+            <span class="badge bg-secondary">{{$i}}</span>  
+        @endif
+        @endforeach
     </div>
+</div>
 </body>
 </html>
