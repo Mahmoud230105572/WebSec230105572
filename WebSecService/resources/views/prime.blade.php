@@ -1,15 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link href="public/css/bootstrap.min.css" rel="stylesheet">
-    <script src="public/js/bootstrap.bundle.min.js"></script>
-</head>
-
-
-<body>
+@extends('layouts.master')
+    @section('title', 'Prime Numbers')
+    @section('content')
     <div class="card m-4">
         <div class="card-header">Prime Numbers</div>
         <div class="card-body">
@@ -20,6 +11,6 @@
             <span class="badge bg-secondary">{{$i}}</span>  
             @endif
         @endforeach
+        </div>
     </div>
-</body> 
-</html>
+@endsection

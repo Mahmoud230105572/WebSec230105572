@@ -1,15 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link href="public/css/bootstrap.min.css" rel="stylesheet">
-    <script src="public/js/bootstrap.bundle.min.js"></script>
-</head>
+@extends('layouts.master')
+    @section('title', 'Even Numbers')
+    @section('content')
 
 @php($j = 5)
-<body>
     <div class="card">
         <div class="card-header">Even Numbers</div>
         <div class="card-body">
@@ -22,5 +15,4 @@
         @endforeach
     </div>
 </div>
-</body>
-</html>
+@endsection
