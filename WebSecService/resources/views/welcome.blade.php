@@ -8,13 +8,16 @@
     <script src="public/js/bootstrap.bundle.min.js"></script>
 </head>
 
+@php($j = 5)
 <body>
-    <div class="container">
-        <div class="card">
-            <div class="card-header">New Card</div>
-            <div class="card-body">
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate nemo et eligendi ipsam nesciunt fugiat natus autem cumque doloribus ratione quis, quae beatae, maiores perferendis placeat impedit fugit odio aliquam?</p>
-            </div>
+    <div class="card m-4 col-sm-2">
+        <div class="card-header">{{$j}} Multiplication Table</div>
+        <div class="card-body">
+        <table>
+            @foreach (range(1, 10) as $i)
+        <tr><td>{{$i}} * {{$j}}</td><td> = {{ $i * $j }}</td></li>    
+            @endforeach
+        </table>
         </div>
     </div>
 </body>
