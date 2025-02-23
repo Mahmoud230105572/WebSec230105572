@@ -13,6 +13,9 @@
         <li class="nav-item">
             <a class="nav-link" href="./multable">Multiplication Table</a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" href="./bill">Supermarket Bill</a>
+        </li>
         </ul>
     </div>
 </nav>
