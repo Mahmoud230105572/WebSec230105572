@@ -30,5 +30,34 @@ Route::get('/bill', function () {
         $bill->total += $product->price * $product->quantity;
     }
     $bill->currency = "LE";
-    return view('bill',compact("bill")); //prime.blade.php
+    return view('bill',compact("bill")); 
 });
+Route::get('/transcript', function () {
+    $courses = [
+        ['name' => 'Operating Systems', 'grade' => 'A'],
+        ['name' => 'Computer Networks', 'grade' => 'B+'],
+        ['name' => 'Cybersecurity', 'grade' => 'A-'],
+        ['name' => 'Database Systems', 'grade' => 'B'],
+        ['name' => 'Web Development', 'grade' => 'A']
+    ];
+
+    // Function to convert letter grades to GPA points
+    function gradeToGpa($grade) {
+        $gradeScale = [
+            'A' => 4.0, 'A-' => 3.7, 'B+' => 3.3, 'B' => 3.0,
+            'B-' => 2.7, 'C+' => 2.3, 'C' => 2.0, 'C-' => 1.7,
+            'D+' => 1.3, 'D' => 1.0, 'F' => 0.0
+        ];
+        return $gradeScale[$grade] ?? 0.0;
+    }
+
+    // Calculate total GPA
+    $totalPoints = 0;
+    foreach ($courses as $course) {
+        $totalPoints += gradeToGpa($course['grade']);
+    }
+    $gpa = count($courses) > 0 ? round($totalPoints / count($courses), 2) : 0;
+
+    return view('transcript', compact('courses', 'gpa'));
+});
+

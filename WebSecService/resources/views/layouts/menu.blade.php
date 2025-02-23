@@ -16,6 +16,9 @@
         <li class="nav-item">
             <a class="nav-link" href="./bill">Supermarket Bill</a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" href="./transcript">Academic transcript</a>
+        </li>
         </ul>
     </div>
 </nav>
