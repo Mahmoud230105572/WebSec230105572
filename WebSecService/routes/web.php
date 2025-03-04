@@ -61,3 +61,7 @@ Route::get('/transcript', function () {
     return view('transcript', compact('courses', 'gpa'));
 });
 
+
+use App\Http\Controllers\Web\ProductsController;
+
+Route::get('products', [ProductsController::class, 'list']);
