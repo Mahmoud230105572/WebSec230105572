@@ -65,3 +65,10 @@ Route::get('/transcript', function () {
 use App\Http\Controllers\Web\ProductsController;
 
 Route::get('products', [ProductsController::class, 'list']);
+
+
+
+use App\Http\Controllers\Web\UsersController;
+
+Route::get('register', [UsersController::class, 'register'])->name('register');
+Route::post('register', [UsersController::class, 'doRegister'])->name('do_register');

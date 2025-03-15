@@ -23,5 +23,19 @@
             <a class="nav-link" href="products">Products</a>
         </li>
         </ul>
+
+        
+        <ul class="navbar-nav">
+            @auth
+            <li class="nav-item">
+                <a class="nav-link" href="/">{{ Auth::user()->name }}</a>
+            </li>
+            <li class="nav-item"><a class="nav-link" href="/">Logout</a></li>
+            @else
+            <li class="nav-item"><a class="nav-link" href="/">Login</a></li>
+            @endauth
+            <li class="nav-item"><a class="nav-link" href="{{route('register')}}">Register</a></li>
+        </ul>
+        
     </div>
 </nav>
