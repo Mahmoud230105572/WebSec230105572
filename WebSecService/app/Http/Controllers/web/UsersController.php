@@ -47,6 +47,12 @@ public function register(Request $request) {
             Auth::setUser($user);
             return redirect("/");
             }
+
+    public function doLogout(Request $request) {
+
+        Auth::logout();
+        return redirect("/");
+        }
 }
     
 

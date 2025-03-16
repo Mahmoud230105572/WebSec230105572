@@ -30,7 +30,7 @@
             <li class="nav-item">
                 <a class="nav-link" href="/">{{ Auth::user()->name }}</a>
             </li>
-            <li class="nav-item"><a class="nav-link" href="/">Logout</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{route('do_logout')}}">Logout</a></li>
             @else
             <li class="nav-item"><a class="nav-link" href="{{route('login')}}">Login</a></li>
             @endauth
