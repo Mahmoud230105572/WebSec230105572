@@ -75,3 +75,12 @@ Route::post('register', [UsersController::class, 'doRegister'])->name('do_regist
 Route::get('login', [UsersController::class, 'login'])->name('login');
 Route::post('login', [UsersController::class, 'doLogin'])->name('do_login');
 Route::get('logout', [UsersController::class, 'doLogout'])->name('do_logout');
+
+
+
+use App\Http\Controllers\web\TodoController;
+
+
+Route::get('/todos', [TodoController::class, 'index'])->name('todos.index');
+Route::post('/todos', [TodoController::class, 'store'])->name('todos.store');
+Route::delete('/todos/{todo}', [TodoController::class, 'destroy'])->name('todos.destroy');

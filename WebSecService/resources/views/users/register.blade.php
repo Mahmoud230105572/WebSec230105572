@@ -14,7 +14,6 @@
         <strong>Error!</strong> {{$error}}
         </div>
         @endforeach
-       
         <div class="form-group mb-2">
         <label for="code" class="form-label">Name:</label>
         <input type="text" class="form-control" placeholder="name" name="name" required>

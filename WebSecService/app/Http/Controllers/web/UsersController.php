@@ -40,13 +40,13 @@ public function register(Request $request) {
     public function login(Request $request) {
         return view('users.login');
         }
-        public function doLogin(Request $request) {
-            if(!Auth::attempt(['email' => $request->email, 'password' => $request->password]))
-            return redirect()->back()->withInput($request->input())->withErrors('Invalid login information.');
-            $user = User::where('email', $request->email)->first();
-            Auth::setUser($user);
-            return redirect("/");
-            }
+    public function doLogin(Request $request) {
+        if(!Auth::attempt(['email' => $request->email, 'password' => $request->password]))
+        return redirect()->back()->withInput($request->input())->withErrors('Invalid login information.');
+        $user = User::where('email', $request->email)->first();
+        Auth::setUser($user);
+        return redirect("/");
+        }
 
     public function doLogout(Request $request) {
 
