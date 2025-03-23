@@ -3,8 +3,20 @@
 @section('content')
     
     <div class="container">
+
+        <div class="row">
+            <div class="col col-10">
+                <h1>Products</h1>
+            </div>
+            <div class="col col-2">
+                <a href="{{route('products_edit')}}" class="btn btn-success form-control">Add Product</a>
+            </div>
+        </div>
+
+
         <div class="card">
             <div class="card-body">
+
                 <form>
                     <div class="row">
                         <div class="col col-sm-2">

@@ -39,5 +39,18 @@
 
             return view("products.list", compact('products'));
         }
+
+        public function edit(Request $request, Product $product = null) {
+            $product = $product??new Product();
+            return view("products.edit", compact('product'));
+        }
+
+
+        public function save(Request $request, Product $product = null) {
+            $product = $product??new Product();
+            $product->fill($request->all());
+            $product->save();
+            return redirect()->route('products_list');
+        }
     }
 
