@@ -7,6 +7,9 @@
 
 
     class ProductsController extends Controller{
+        public function __construct(){
+            $this->middleware("auth:web")->except("list");
+        }
     
         public function list(Request $request) {
             $query = Product::select("products.*");
