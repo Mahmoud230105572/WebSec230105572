@@ -9,11 +9,13 @@
     {{ csrf_field() }}
 
     <div class="form-group">
-        @foreach($errors->all() as $error)
+        @foreach($errors->all() as $error)        
         <div class="alert alert-danger">
-        <strong>Error!</strong> {{$error}}
+            <strong>Error</strong> {{$error}}
         </div>
+        @break
         @endforeach
+        
         <div class="form-group mb-2">
         <label for="code" class="form-label">Name:</label>
         <input type="text" class="form-control" placeholder="name" name="name" required>

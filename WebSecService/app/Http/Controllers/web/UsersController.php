@@ -13,21 +13,23 @@ use Illuminate\Support\Facades\Validator;
 
 
 class UsersController extends Controller {
+    use ValidatesRequests;
 
 
-public function register(Request $request) {
-    return view('users.register');
+    public function register(Request $request) {
+        return view('users.register');
     }
+
     public function doRegister(Request $request) {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
+
+        $this->validate($request, [
+            'name' => ['required', 'string', 'min:4'],
+            'email' => ['required', 'email', 'unique:users'],
+            'password' => ['required', 'confirmed',
+                Password::min(8)->numbers()->letters()->mixedCase()->symbols()],
         ]);
-        
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
+
+
         $user = new User();
         $user->name = $request->name;
         $user->email = $request->email;
@@ -40,9 +42,13 @@ public function register(Request $request) {
     public function login(Request $request) {
         return view('users.login');
         }
+
+        
     public function doLogin(Request $request) {
+
         if(!Auth::attempt(['email' => $request->email, 'password' => $request->password]))
-        return redirect()->back()->withInput($request->input())->withErrors('Invalid login information.');
+            return redirect()->back()->withInput($request->input())->withErrors('Invalid login information.');
+
         $user = User::where('email', $request->email)->first();
         Auth::setUser($user);
         return redirect("/");
