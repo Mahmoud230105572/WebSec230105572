@@ -1,8 +1,16 @@
 @extends('layouts.master')
 @section('title', 'Prime Numbers')
 @section('content')
-    <form action="{{route('products_save', $product->id)}}" method="post">
+    <form action="{{route('products_save', $product->id)}}" method="post">  
     {{ csrf_field() }}
+
+    @foreach($errors->all() as $error)        
+    <div class="alert alert-danger">
+        <strong>Error</strong> {{$error}}
+    </div>
+    @break
+    @endforeach
+    
     <div class="row mb-2">
         <div class="col-6">
             <label for="code" class="form-label">Code:</label>

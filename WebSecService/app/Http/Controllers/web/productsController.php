@@ -4,9 +4,15 @@
     use DB;
     use App\Http\Controllers\Controller;
     use App\Models\Product;
+    use Illuminate\Foundation\Validation\ValidatesRequests;
+    use Illuminate\Support\Facades\Validator;
+
+
 
 
     class ProductsController extends Controller{
+        use ValidatesRequests;
+        
         public function __construct(){
             $this->middleware("auth:web")->except("list");
         }
@@ -50,9 +56,21 @@
 
 
         public function save(Request $request, Product $product = null) {
+            $this->validate($request, [
+                'code' => ['required', 'string', 'max:32'],
+                'name' => ['required', 'string', 'max:128'],
+                'model' => ['required', 'string', 'max:256'],
+                'description' => ['required', 'string', 'max:1024'],
+                'price' => ['required', 'numeric'],
+            ]);
+
+
+
             $product = $product??new Product();
             $product->fill($request->all());
             $product->save();
+
+
             return redirect()->route('products_list');
         }
 
