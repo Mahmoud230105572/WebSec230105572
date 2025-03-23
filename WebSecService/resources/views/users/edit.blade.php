@@ -39,12 +39,43 @@
                     <input type="password" class="form-control" name="password_confirmation" placeholder="Confirm new password">
                 </div>
 
+
+
+                @can('edit_users')
+                <div class="col-12 mb-2">
+                    <label for="model" class="form-label">Roles:</label>
+                    <select multiple class="form-select" name="roles[]">
+                    @foreach($roles as $role)
+                        <option value='{{$role->name}}' {{$role->taken?'selected':''}}>
+                        {{$role->name}}
+                    </option>
+                    @endforeach
+                    </select>
+                </div>
+
+
+                <div class="col-12 mb-2">
+                    <label for="model" class="form-label">Direct Permissions:</label>
+                    <select multiple class="form-select" name="permissions[]">
+                    @foreach($permissions as $permission)
+                    <option value='{{$permission->name}}' {{$permission->taken?'selected':''}}>
+                    {{$permission->name}}
+                    </option>
+                    @endforeach
+                    </select>
+                </div>
+                @endcan
+
+
                 <div class="text-center">
                     <button type="submit" class="btn btn-primary w-50">Save Changes</button>
                 </div>
             </form>
         </div>
     </div>
+
+
+
 </div>
 
 

@@ -10,6 +10,9 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
+use Artisan;
 
 
 
@@ -88,7 +91,23 @@ class UsersController extends Controller {
             if(auth()->id()!=$user?->id) {
                 if(!auth()->user()->hasPermissionTo('edit_users')) abort(401);
             }
-            return view('users.edit', compact('user'));
+            
+            
+            $roles = [];
+            foreach(Role::all() as $role) {
+                $role->taken = ($user->hasRole($role->name));
+                $roles[] = $role;
+            }
+            
+            
+            $permissions = [];
+            $directPermissionsIds = $user->permissions()->pluck('id')->toArray();
+            foreach(Permission::all() as $permission) {
+                $permission->taken = in_array($permission->id, $directPermissionsIds);
+                $permissions[] = $permission;
+            }
+            return view('users.edit', compact('user', 'roles', 'permissions'));
+        
         }
 
         public function save(Request $request, User $user) {
@@ -120,8 +139,13 @@ class UsersController extends Controller {
                 $user->password = bcrypt($request->password);
             }
 
-        
             $user->save();
+
+            if(auth()->user()->hasPermissionTo('edit_users')) {
+                $user->syncRoles($request->roles);
+                $user->syncPermissions($request->permissions);
+                Artisan::call('cache:clear');
+            }
             
             return redirect(route('profile', ['user' => $user->id]));
         }
