@@ -50,6 +50,11 @@
         }
 
         public function edit(Request $request, Product $product = null) {
+            
+            if (!  auth()->user()->hasPermissionTo('edit_products')) {
+                abort(401);
+            }
+
             $product = $product??new Product();
             return view("products.edit", compact('product'));
         }
@@ -76,6 +81,11 @@
 
 
         public function delete(Request $request, Product $product) {
+
+            if (!  auth()->user()->hasPermissionTo('delete_products')) {
+                abort(401);
+            }
+
             $product->delete();
             return redirect()->route('products_list');
         }

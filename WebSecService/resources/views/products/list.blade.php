@@ -8,11 +8,11 @@
             <div class="col col-10">
                 <h1>Products</h1>
             </div>
-            @auth
+            @can("edit_products")
             <div class="col col-2">
                 <a href="{{route('products_edit')}}" class="btn btn-success form-control">Add Product</a>
             </div>
-            @endauth
+            @endcan
         </div>
 
 
@@ -66,14 +66,17 @@
                         <h3>{{$product->name}}</h3>
                         
                         <div class="row mb-2">
-                        @auth
+                            @can("edit_products")
                             <div class="col">
                                 <a href="{{route('products_edit', $product->id)}}" class="btn btn-success form-control">Edit</a>
                             </div>
+                            @endcan
+
+                            @can("delete_products")
                             <div class="col">
                                 <a href="{{route('products_delete', $product->id)}}" class="btn btn-danger form-control">Delete</a>
                             </div>
-                        @endauth
+                            @endcan
                         </div>
                         
                         
