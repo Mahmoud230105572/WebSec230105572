@@ -61,7 +61,17 @@
                 <div class="card">
                     <div class="card-img-top"><img src="{{$product->photo}}" alt="{{$product->name}}" class="img-thumbnail"></div>
                     <div class="card-body">
-                        <h2>{{$product->name}}</h2>
+                        <h3>{{$product->name}}</h3>
+                        <div class="row mb-2">
+                            <div class="col">
+                                <a href="{{route('products_edit', $product->id)}}" class="btn btn-success form-control">Edit</a>
+                            </div>
+                            <div class="col">
+                                <a href="{{route('products_delete', $product->id)}}" class="btn btn-danger form-control">Delete</a>
+                            </div>
+                        </div>
+                        
+                        
                         <table class="table table-striped">
                             <tr>
                                 <td>Name</td>

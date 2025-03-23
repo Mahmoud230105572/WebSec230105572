@@ -52,5 +52,11 @@
             $product->save();
             return redirect()->route('products_list');
         }
+
+
+        public function delete(Request $request, Product $product) {
+            $product->delete();
+            return redirect()->route('products_list');
+        }
     }
 
