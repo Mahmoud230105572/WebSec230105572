@@ -103,25 +103,27 @@ class UsersController extends Controller {
             ]);
 
         
-            // If the user wants to update the password, validate the old and new password
-            if ($request->filled('password')) {
-                $rules['old_password'] = ['required'];
-                $rules['password'] = ['required', 'confirmed', Password::min(8)->letters()->mixedCase()->numbers()->symbols()];
-            }
 
             $user->name = $request->name;
         
-            // Password update with old password verification
+            // Password update with old password verification and validation
             if ($request->filled('password')) {
+                $this->validate($request, [
+                    'old_password' => ['required'],
+                    'password' => ['required', 'confirmed', Password::min(8)->letters()->mixedCase()->numbers()->symbols()],
+                ]);
+
                 if (!Hash::check($request->old_password, $user->password)) {
                     return back()->withErrors(['old_password' => 'Old password is incorrect']);
                 }
+
                 $user->password = bcrypt($request->password);
             }
+
         
             $user->save();
             
-            return redirect(route('profile', ['user' => $user->id]))->with('success', 'Profile updated successfully.');
+            return redirect(route('profile', ['user' => $user->id]));
         }
         
 }
