@@ -21,11 +21,20 @@ class UsersController extends Controller {
     use ValidatesRequests;
 
     
+    
     public function index() {
-        if(!auth()->user()->hasPermissionTo('show_users')) abort(401);
-        $users = User::paginate(10); // Fetch 10 users per page
+        if (!auth()->check()) {
+            abort(401, 'User not authenticated'); // Ensure user is logged in
+        }
+    
+        if (!auth()->user()->hasPermissionTo('show_users')) {
+            abort(403, 'User does not have permission'); // 403 is better for permission denial
+        }
+    
+        $users = User::paginate(10);
         return view('users.index', compact('users'));
     }
+    
 
 
 
