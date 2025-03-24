@@ -26,6 +26,9 @@
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('todos.index') }}">To-Do List</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('users_index') }}">Users</a>
+            </li>
         </ul>
 
         

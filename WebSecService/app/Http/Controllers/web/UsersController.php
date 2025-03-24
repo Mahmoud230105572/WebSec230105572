@@ -20,6 +20,14 @@ use Artisan;
 class UsersController extends Controller {
     use ValidatesRequests;
 
+    
+    public function index() {
+        if(!auth()->user()->hasPermissionTo('show_users')) abort(401);
+        $users = User::paginate(10); // Fetch 10 users per page
+        return view('users.index', compact('users'));
+    }
+
+
 
     public function register(Request $request) {
         return view('users.register');

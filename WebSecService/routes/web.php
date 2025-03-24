@@ -81,6 +81,7 @@ Route::get('logout', [UsersController::class, 'doLogout'])->name('do_logout');
 Route::get('profile/{user?}', [UsersController::class, 'profile'])->name('profile');
 Route::get('users/edit/{user?}', [UsersController::class, 'edit'])->name('users_edit');
 Route::post('users/save/{user}', [UsersController::class, 'save'])->name('users_save');
+Route::get('users', [UsersController::class, 'index'])->name('users_index');
 
 
 
