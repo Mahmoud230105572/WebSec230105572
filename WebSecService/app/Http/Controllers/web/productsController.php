@@ -1,11 +1,14 @@
 <?php
     namespace App\Http\Controllers\Web;
+
+    use App\Http\Controllers\Controller;
     use Illuminate\Http\Request;
     use DB;
-    use App\Http\Controllers\Controller;
     use App\Models\Product;
     use Illuminate\Foundation\Validation\ValidatesRequests;
     use Illuminate\Support\Facades\Validator;
+    use Illuminate\Support\Facades\Auth;
+
 
 
 
@@ -89,5 +92,33 @@
             $product->delete();
             return redirect()->route('products_list');
         }
+
+
+
+
+        public function purchase($id) {
+            $product = Product::findOrFail($id);
+            $user = Auth::user();
+        
+            // Check if user has enough credit
+            if ($user->account_credit < $product->price) {
+                return redirect()->back()->with('error', 'Insufficient credit.');
+            }
+        
+            // Deduct price from user credit
+            $user->account_credit -= $product->price;
+            $user->save();
+        
+            // Reduce stock
+            if ($product->stock > 0) {
+                $product->stock -= 1;
+                $product->save();
+            } else {
+                return redirect()->back()->with('error', 'Out of stock.');
+            }
+        
+            return redirect()->back()->with('success', 'Purchase successful!');
+        }
+
     }
 

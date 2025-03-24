@@ -39,27 +39,22 @@
                     <input type="password" class="form-control" name="password_confirmation" placeholder="Confirm new password">
                 </div>
 
+                @can('add_credit')
+                <div class="mb-3">
+                    <label for="account_credit" class="form-label">Account Credit:</label>
+                    <input type="number" class="form-control" name="account_credit" step="0.01" value="{{ $user->account_credit }}">
+                </div>
+                @endcan
 
 
-                @can('edit_users')
+
+                @can('edit_permissions')
                 <div class="col-12 mb-2">
                     <label for="model" class="form-label">Roles:</label>
                     <select multiple class="form-select" name="roles[]">
                     @foreach($roles as $role)
                         <option value='{{$role->name}}' {{$role->taken?'selected':''}}>
                         {{$role->name}}
-                    </option>
-                    @endforeach
-                    </select>
-                </div>
-
-
-                <div class="col-12 mb-2">
-                    <label for="model" class="form-label">Direct Permissions:</label>
-                    <select multiple class="form-select" name="permissions[]">
-                    @foreach($permissions as $permission)
-                    <option value='{{$permission->name}}' {{$permission->taken?'selected':''}}>
-                    {{$permission->name}}
                     </option>
                     @endforeach
                     </select>

@@ -11,6 +11,9 @@
                 <th>Email</th><td>{{$user->email}}</td>
             </tr>
             <tr>
+                <th>Account Credit:</th><td>{{ number_format($user->account_credit, 2) }}</td>
+            </tr>
+            <tr>
                 <th>Roles</th>
                 <td>
                     @foreach($user->roles as $role)

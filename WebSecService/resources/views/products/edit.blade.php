@@ -39,6 +39,12 @@
     </div>
     <div class="row mb-2">
         <div class="col">
+            <label for="stock" class="form-label">Stock:</label>
+            <input type="number" class="form-control" placeholder="Stock" name="stock" required value="{{$product->stock}}">
+        </div>
+    </div>
+    <div class="row mb-2">
+        <div class="col">
             <label for="name" class="form-label">Description:</label>
             <textarea type="text" class="form-control" placeholder="Description" name="description" required>{{$product->description}}</textarea>
         </div>

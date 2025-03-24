@@ -3,7 +3,18 @@
 @section('content')
     
     <div class="container">
-
+        @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+    
+    @if(session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
+    
         <div class="row">
             <div class="col col-10">
                 <h1>Products</h1>
@@ -77,6 +88,15 @@
                                 <a href="{{route('products_delete', $product->id)}}" class="btn btn-danger form-control">Delete</a>
                             </div>
                             @endcan
+
+                            @can("purchase_products")
+                            <div class="col">
+                                <form action="{{ route('products_purchase', $product->id) }}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="btn btn-primary form-control">Purchase</button>
+                                </form>
+                            </div>
+                            @endcan
                         </div>
                         
                         
@@ -96,6 +116,10 @@
                             <tr>
                                 <td>Price</td>
                                 <td style="color:rgb(41, 219, 41); font-weight:bold;">{{$product->price}}</td>
+                            </tr>
+                            <tr>
+                                <td>Stock</td>
+                                <td>{{$product->stock}}</td>
                             </tr>
                             <tr>
                                 <td>Description</td>
