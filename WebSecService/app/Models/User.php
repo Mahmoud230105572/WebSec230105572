@@ -11,6 +11,5 @@
         use HasFactory;
         use HasRoles;
 
-        
 
     }

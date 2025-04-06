@@ -8,6 +8,8 @@
     use Illuminate\Foundation\Validation\ValidatesRequests;
     use Illuminate\Support\Facades\Validator;
     use Illuminate\Support\Facades\Auth;
+    use App\Models\BoughtProduct;
+
 
 
 
@@ -105,9 +107,7 @@
                 return redirect()->back()->with('error', 'Insufficient credit.');
             }
         
-            // Deduct price from user credit
-            $user->account_credit -= $product->price;
-            $user->save();
+
         
             // Reduce stock
             if ($product->stock > 0) {
@@ -116,9 +116,39 @@
             } else {
                 return redirect()->back()->with('error', 'Out of stock.');
             }
+
+            // minus price from user credit
+            $user->account_credit -= $product->price;
+            $user->save();
+
+            BoughtProduct::create([
+                'user_id' => $user->id,
+                'product_id' => $product->id,
+            ]);
+            
         
             return redirect()->back()->with('success', 'Purchase successful!');
         }
 
-    }
+
+
+        public function boughtProducts() {
+            $user = auth()->user();
+            
+            // If the user is an admin or employee, show all bought products
+            if ($user->hasRole('admin') || $user->hasRole('employee')) {
+                $boughtProducts = BoughtProduct::with('product', 'user')->get();
+            }
+            // For customers, show only their own bought products
+            else {
+                $boughtProducts = BoughtProduct::where('user_id', $user->id)->with('product')->get();
+            }
+        
+            return view('products.bought', compact('boughtProducts'));
+        }
+        
+        
+
+
+}
 

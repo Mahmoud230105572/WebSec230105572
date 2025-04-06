@@ -29,15 +29,20 @@ class UsersController extends Controller {
     
         $user = auth()->user();
     
-        // Fetch only customers if the user is an employee
-        if ($user->hasRole('employee')) {
+        
+        if ($user->hasRole('admin')) {
+            // Admins can see all users
+            $query = User::query();
+        } elseif ($user->hasRole('employee')) {
+            // Employees can only see customers
             $query = User::whereHas('roles', function ($q) {
                 $q->where('name', 'customer');
             });
         } else {
-            // Admins can see all users
-            $query = User::query();
+            // Customers and unauthorized users should see nothing (or redirect)
+            abort(403, 'Unauthorized access');
         }
+        
     
         // Apply search filter if input exists
         if ($request->has('search') && !empty($request->search)) {
@@ -54,10 +59,10 @@ class UsersController extends Controller {
     
         return view('users.index', compact('users'));
     }
-    
-    
-    
-    
+
+
+
+
 
 
 
