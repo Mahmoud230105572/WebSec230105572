@@ -198,6 +198,34 @@ class UsersController extends Controller {
         }
 
 
+        public function redirectToGoogle()
+        {
+            return Socialite::driver('google')->redirect();
+        }
+
+        public function handleGoogleCallback() {
+            try {
+                $googleUser = Socialite::driver('google')->user();
+                // Log the user details to verify the callback
+                \Log::info('Google User:', (array) $googleUser);
+        
+                $user = User::updateOrCreate([
+                    'google_id' => $googleUser->id,
+                ], [
+                    'name' => $googleUser->name,
+                    'email' => $googleUser->email,
+                    'google_token' => $googleUser->token,
+                    'google_refresh_token' => $googleUser->refreshToken,
+                ]);
+        
+                Auth::login($user);
+                return redirect('/');
+            } catch (\Exception $e) {
+                \Log::error('Google login error:', ['error' => $e->getMessage()]);
+                return redirect('/login')->with('error', 'Google login failed.');
+            }
+        }
+        
 
 
 

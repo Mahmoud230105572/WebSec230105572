@@ -11,6 +11,13 @@
         use HasFactory;
         use HasRoles;
 
-        
+        protected $fillable = [
+            'name',
+            'email',
+            'password',
+            'google_id', // Add google_id here
+            'google_token',
+            'google_refresh_token',
+        ];
 
     }
