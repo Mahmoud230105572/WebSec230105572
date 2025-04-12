@@ -13,6 +13,12 @@ use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Artisan;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\VerificationEmail;
+use Carbon\Carbon;
+use Laravel\Socialite\Facades\Socialite;
+
 
 
 
@@ -57,6 +63,13 @@ class UsersController extends Controller {
         $user->email = $request->email;
         $user->password = bcrypt($request->password); //Secure
         $user->save();
+
+
+        $title = "Verification Link";
+        $token = Crypt::encryptString(json_encode(['id' => $user->id, 'email' => $user->email]));
+        $link = route("verify", ['token' => $token]);
+        Mail::to($user->email)->send(new VerificationEmail($link, $user->name));
+
         return redirect("/");
     }
     
@@ -72,6 +85,12 @@ class UsersController extends Controller {
             return redirect()->back()->withInput($request->input())->withErrors('Invalid login information.');
 
         $user = User::where('email', $request->email)->first();
+
+        if(!$user->email_verified_at){
+            return redirect()->back()->withInput($request->input())
+            ->withErrors('Your email is not verified.');
+        }
+
         Auth::setUser($user);
         return redirect("/");
         }
@@ -166,7 +185,22 @@ class UsersController extends Controller {
             
             return redirect(route('profile', ['user' => $user->id]));
         }
-        
+
+
+        public function verify(Request $request) {
+
+            $decryptedData = json_decode(Crypt::decryptString($request->token), true);
+            $user = User::find($decryptedData['id']);
+            if(!$user) abort(401);
+            $user->email_verified_at = Carbon::now();
+            $user->save();
+            return view('users.verified', compact('user'));
+        }
+
+
+
+
+
 }
-    
+
 

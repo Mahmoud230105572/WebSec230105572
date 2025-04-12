@@ -91,3 +91,11 @@ use App\Http\Controllers\web\TodoController;
 Route::get('/todos', [TodoController::class, 'index'])->name('todos.index');
 Route::post('/todos', [TodoController::class, 'store'])->name('todos.store');
 Route::delete('/todos/{todo}', [TodoController::class, 'destroy'])->name('todos.destroy');
+
+
+
+Route::get('verify', [UsersController::class, 'verify'])->name('verify');
+
+
+Route::get('/auth/google', [UsersController::class, 'redirectToGoogle'])->name('login_with_google');
+Route::get('/auth/google/callback', [UsersController::class, 'handleGoogleCallback']);

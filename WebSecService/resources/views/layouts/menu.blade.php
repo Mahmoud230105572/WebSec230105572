@@ -17,7 +17,7 @@
                 <a class="nav-link" href="./bill">Supermarket Bill</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="./transcript">Academic transcript</a>
+                <a class="nav-link" href="./transcript">Academic Transcript</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('users_index') }}">Users</a>
