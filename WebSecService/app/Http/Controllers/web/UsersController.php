@@ -81,17 +81,25 @@ class UsersController extends Controller {
         
     public function doLogin(Request $request) {
 
-        if(!Auth::attempt(['email' => $request->email, 'password' => $request->password]))
-            return redirect()->back()->withInput($request->input())->withErrors('Invalid login information.');
 
         $user = User::where('email', $request->email)->first();
+
+        // if(!Auth::attempt(['email' => $request->email, 'password' => $request->password]))
+        // return redirect()->back()->withInput($request->input())->withErrors('Invalid login information.');
+        // we have made this change because Auth::attempt will log the user directly 
+
+        if (!$user || !Hash::check($request->password, $user->password)) {
+            return redirect()->back()->withInput($request->input())
+                ->withErrors('Invalid login information.');
+        }
+
 
         if(!$user->email_verified_at){
             return redirect()->back()->withInput($request->input())
             ->withErrors('Your email is not verified.');
         }
 
-        Auth::setUser($user);
+        Auth::login($user);
         return redirect("/");
         }
 
