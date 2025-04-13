@@ -237,6 +237,74 @@ class UsersController extends Controller {
 
 
 
+            // Show Forgot Password Form
+    public function showForgotPasswordForm()
+    {
+        return view('users.forgot-password');
+    }
+
+    // Handle Forgot Password Form Submission
+    public function sendResetLink(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email|exists:users,email',
+        ]);
+    
+        // Find the user by email
+        $user = User::where('email', $request->email)->first();
+    
+        // Generate a secure token (you can use any logic, here I'm using Crypt::encryptString)
+        $token = Crypt::encryptString(json_encode(['id' => $user->id, 'email' => $user->email]));
+    
+        // Generate the reset password link
+        $link = route('password.reset', ['token' => $token]);
+    
+        // Send the reset password email
+        Mail::to($user->email)->send(new VerificationEmail($link, $user->name));
+    
+        return back()->with('status', 'A password reset link has been sent to your email.');
+    }
+
+    // Show the Reset Password Form
+    public function showResetPasswordForm($token)
+    {
+        return view('users.reset-password', ['token' => $token]);
+    }
+
+
+
+    public function resetPassword(Request $request)
+    {
+        // Validate incoming request
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|confirmed|min:8', // Add your validation rules here
+            'token' => 'required',
+        ]);
+    
+        // Find the user by the provided email
+        $user = User::where('email', $request->email)->first();
+    
+        if (!$user) {
+            return back()->withErrors(['email' => 'Email not found.']);
+        }
+    
+        // Check if the token is valid (you can implement token validation yourself)
+        // For example, if you're storing the token in a database or a password_resets table
+        // You can manually verify the token here.
+    
+        // Assuming token is validated and is valid, update the user's password
+        $user->password = Hash::make($request->password); // Encrypt the new password
+        $user->save(); // Save the updated password
+    
+        // Log the user in after resetting the password
+        Auth::loginUsingId($user->id);
+    
+        // Redirect the user to a home page or dashboard
+        return redirect("/"); // Adjust this to your main route
+    }
+
+
 }
 
 
