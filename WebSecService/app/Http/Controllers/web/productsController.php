@@ -13,38 +13,62 @@
     class ProductsController extends Controller{
         use ValidatesRequests;
         
-        public function __construct(){
-            $this->middleware("auth:web")->except("list");
-        }
+        // public function __construct(){
+        //     $this->middleware("auth:web")->except("list");
+        // }
     
         public function list(Request $request) {
-            $query = Product::select("products.*");
+            // $query = Product::select("products.*");
 
-            // Filter by keywords (search in name)
-            $query->when($request->keywords, fn($q) => 
-                $q->where("name", "like", "%{$request->keywords}%")
-            );
+            // // Filter by keywords (search in name)
+            // $query->when($request->keywords, fn($q) => 
+            //     $q->where("name", "like", "%{$request->keywords}%")
+            // );
             
-            // Filter by min price
-            $query->when($request->min_price, fn($q) => 
-                $q->where("price", ">=", $request->min_price)
-            );
+            // // Filter by min price
+            // $query->when($request->min_price, fn($q) => 
+            //     $q->where("price", ">=", $request->min_price)
+            // );
             
-            // Filter by max price
-            $query->when($request->max_price, fn($q) => 
-                $q->where("price", "<=", $request->max_price)
-            );
+            // // Filter by max price
+            // $query->when($request->max_price, fn($q) => 
+            //     $q->where("price", "<=", $request->max_price)
+            // );
             
-            // Sorting (order by column)
-            $query->when($request->order_by, fn($q) => 
-                $q->orderBy($request->order_by, $request->order_direction ?? "ASC")
-            );
+            // // Sorting (order by column)
+            // $query->when($request->order_by, fn($q) => 
+            //     $q->orderBy($request->order_by, $request->order_direction ?? "ASC")
+            // );
             
-            // Get the filtered results
-            $products = $query->get();
+            // // Get the filtered results
+            // $products = $query->get();
             
             
+            $sql = "SELECT * FROM products WHERE 1=1";
 
+            // Unsafe keyword filter
+            if ($request->keywords) {
+                $sql .= " AND name LIKE '%" . $request->keywords . "%'";
+            }
+        
+            // Unsafe min price filter
+            if ($request->min_price) {
+                $sql .= " AND price >= " . $request->min_price;
+            }
+        
+            // Unsafe max price filter
+            if ($request->max_price) {
+                $sql .= " AND price <= " . $request->max_price;
+            }
+        
+            // Unsafe sorting
+            if ($request->order_by) {
+                $direction = $request->order_direction ?? 'ASC';
+                $sql .= " ORDER BY " . $request->order_by . " " . $direction;
+            }
+        
+            // Execute vulnerable raw query
+            $products = DB::select($sql);
 
             return view("products.list", compact('products'));
         }
