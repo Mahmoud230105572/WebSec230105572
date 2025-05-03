@@ -61,7 +61,7 @@
                 <script>
                     const urlParams = new URLSearchParams(window.location.search);
                     const keywords = urlParams.get('keywords');
-                    document.getElementById('keywords').innerHTML = keywords;
+                    document.getElementById('keywords').textContent = keywords;
                 </script>
                 
             </div>
