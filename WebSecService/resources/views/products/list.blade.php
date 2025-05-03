@@ -53,13 +53,17 @@
                     </div>
                 </form>
 
-                @if(!empty(request()->keywords))
-                    <div class="card mt-2">
+                <div class="card mt-2">
                     <div class="card-body">
-                        View search result of keywords: <span>{{ request()->keywords }}</span>
+                    View search result of keywords: <span id='keywords'></span>
                     </div>
-                    </div>
-                @endif
+                </div>
+                <script>
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const keywords = urlParams.get('keywords');
+                    document.getElementById('keywords').innerHTML = keywords;
+                </script>
+                
             </div>
         </div>
 
