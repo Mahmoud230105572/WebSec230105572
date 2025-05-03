@@ -52,6 +52,14 @@
                         </div>
                     </div>
                 </form>
+
+                @if(!empty(request()->keywords))
+                    <div class="card mt-2">
+                    <div class="card-body">
+                        View search result of keywords: <span>{!!request()->keywords!!}</span>
+                    </div>
+                    </div>
+                @endif
             </div>
         </div>
 
