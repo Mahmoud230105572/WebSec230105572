@@ -3,8 +3,26 @@
 namespace App\Http\Controllers\Web;
 use App\Http\Controllers\Controller; 
 
+use Illuminate\Http\Request;
+
+
 class CryptoController extends Controller {
-    public function cryptography() {
-        return view('crypto.cryptography');
+    public function cryptography(Request $request) {
+
+        $data = $request->data??"Welcome to Cryptography";
+        $action = $request->action??"Encrypt";
+        $result = $request->result??"";
+        $status = "Failed";
+
+
+            if($request->action=="Encrypt") {
+                $temp = openssl_encrypt($request->data, 'aes-128-ecb', 'thisisasecretkey', OPENSSL_RAW_DATA, '');
+                if($temp) {
+                    $status = 'Encrypted Successfully';
+                    $result = base64_encode($temp);
+        }
+    }
+
+
     }
 }
