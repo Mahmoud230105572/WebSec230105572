@@ -37,6 +37,21 @@ class CryptoController extends Controller {
                 $status = 'Hashed Successfully';
             }
 
+
+            else if($request->action=="Sign") {
+                $path = storage_path('app/private/useremail1@domain.com.pfx');
+                $password = '1234';
+                $certificates = [];
+                $pfx = file_get_contents($path);
+                openssl_pkcs12_read($pfx, $certificates, $password);
+                $privateKey = $certificates['pkey'];
+                $signature = '';
+                if(openssl_sign($request->data, $signature, $privateKey, 'sha256')) {
+                    $result = base64_encode($signature);
+                    $status = 'Signed Successfully';
+                }
+            }
+
         return view('crypto.cryptography', compact('data', 'result', 'action', 'status'));
 
     }
