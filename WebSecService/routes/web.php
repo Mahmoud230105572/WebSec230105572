@@ -103,12 +103,11 @@ Route::get('/auth/google/callback', [UsersController::class, 'handleGoogleCallba
 
 // Forgot Password Route
 Route::get('forgot-password', [UsersController::class, 'showForgotPasswordForm'])->name('password.request');
-
-// Handle Forgot Password Form Submission
 Route::post('forgot-password', [UsersController::class, 'sendResetLink'])->name('password.email');
-
-// Password Reset Page
 Route::get('reset-password/{token}', [UsersController::class, 'showResetPasswordForm'])->name('password.reset');
-
-// Handle Reset Password
 Route::post('reset-password', [UsersController::class, 'resetPassword'])->name('password.update');
+
+
+
+use App\Http\Controllers\web\CryptoController;
+Route::get('/cryptography', [CryptoController::class, 'cryptography'])->name('cryptography');

@@ -30,6 +30,10 @@
                 <a class="nav-link" href="{{ route('todos.index') }}">To-Do List</a>
             </li>
 
+            <li class="nav-item">
+                <a class="nav-link" href="{{route('cryptography')}}">Cryptography</a>
+            </li>
+
         </ul>
 
         
