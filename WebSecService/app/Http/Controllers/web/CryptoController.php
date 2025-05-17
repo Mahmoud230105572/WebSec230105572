@@ -24,5 +24,12 @@ class CryptoController extends Controller {
     }
 
 
+            else if($request->action=="Decrypt") {
+                $temp = base64_decode($request->data);
+                $result = openssl_decrypt($temp, 'aes-128-ecb',  'thisisasecretkey', OPENSSL_RAW_DATA, '');
+                if($result) $status = 'Decrypted Successfully';
+        }
+
+
     }
 }
