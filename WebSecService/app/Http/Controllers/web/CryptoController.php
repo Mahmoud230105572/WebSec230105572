@@ -31,5 +31,13 @@ class CryptoController extends Controller {
         }
 
 
+            else if($request->action=="Hash") {
+                $temp = hash('sha256', $request->data);
+                $result = base64_encode($temp);
+                $status = 'Hashed Successfully';
+            }
+
+        return view('crypto.cryptography', compact('data', 'result', 'action', 'status'));
+
     }
 }
