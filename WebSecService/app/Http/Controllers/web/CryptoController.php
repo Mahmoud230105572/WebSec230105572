@@ -52,6 +52,15 @@ class CryptoController extends Controller {
                 }
             }
 
+            else if($request->action=="Verify") {
+                $signature = base64_decode($request->result);
+                $path = storage_path('app/public/useremail1@domain.com.crt');
+                $publicKey = file_get_contents($path);
+                if(openssl_verify($request->data, $signature, $publicKey, 'sha256')) {
+                    $status = 'Verified Successfully';
+                }
+            }
+
         return view('crypto.cryptography', compact('data', 'result', 'action', 'status'));
 
     }
