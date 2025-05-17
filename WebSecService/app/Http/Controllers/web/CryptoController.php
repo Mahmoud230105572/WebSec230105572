@@ -61,6 +61,32 @@ class CryptoController extends Controller {
                 }
             }
 
+
+            else if($request->action=="KeySend") {
+                $path = storage_path('app/public/useremail1@domain.com.crt');
+                $publicKey = file_get_contents($path);
+                $temp = '';
+                if(openssl_public_encrypt($request->data, $temp, $publicKey)) {
+                    $result = base64_encode($temp);
+                    $status = 'Key is Encrypted Successfully';
+                }
+            }
+
+
+            else if($request->action=="KeyRecive") {
+                $path = storage_path('app/private/useremail1@domain.com.pfx');
+                $password = '1234';
+                $certificates = [];
+                $pfx = file_get_contents($path);
+                openssl_pkcs12_read($pfx, $certificates, $password);
+                $privateKey = $certificates['pkey'];
+                $encryptedKey = base64_decode($request->data);
+                $result = '';
+                if(openssl_private_decrypt($encryptedKey, $result, $privateKey)) {
+                    $status = 'Key is Decrypted Successfully';
+                }
+            }
+
         return view('crypto.cryptography', compact('data', 'result', 'action', 'status'));
 
     }
