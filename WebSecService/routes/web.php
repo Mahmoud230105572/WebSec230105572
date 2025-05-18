@@ -69,6 +69,8 @@ Route::get('products/edit/{product?}', [ProductsController::class, 'edit'])->nam
 Route::post('products/save/{product?}', [ProductsController::class, 'save'])->name('products_save');
 Route::get('products/delete/{product}', [ProductsController::class, 'delete'])->name('products_delete');
 
+Route::post('/products/{product}/favourite', [ProductsController::class, 'toggleFavourite'])->name('products.toggle_favourite');
+
 use App\Http\Controllers\Web\UsersController;
 
 Route::get('register', [UsersController::class, 'register'])->name('register');

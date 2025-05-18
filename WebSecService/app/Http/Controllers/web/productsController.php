@@ -89,5 +89,18 @@
             $product->delete();
             return redirect()->route('products_list');
         }
+
+
+        public function toggleFavourite(Product $product)   {
+                if (!auth()->user()->can('select_favourite')) {
+                    abort(403, 'Unauthorized action.');
+                }
+                $product->is_favourite = !$product->is_favourite;
+                $product->save();
+
+                return back();
+            }
+
     }
+
 

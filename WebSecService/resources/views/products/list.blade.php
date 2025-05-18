@@ -90,6 +90,15 @@
                             </div>
                             @endcan
                         </div>
+                        @can("select_favourite")
+                        <form action="{{ route('products.toggle_favourite', $product->id) }}" method="POST">
+                            @csrf
+                            <button type="submit" class="btn {{ $product->is_favourite ? 'btn-warning' : 'btn-outline-warning' }}">
+                                {{ $product->is_favourite ? 'Unfavourite' : 'Favourite' }}
+                            </button>
+                        </form>
+                        @endcan
+
                         
                         
                         <table class="table table-striped">
