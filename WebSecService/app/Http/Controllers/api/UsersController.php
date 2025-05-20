@@ -19,7 +19,7 @@ use App\Models\User;
             }
             $user = User::where('email', $request->email)->select('id', 'name', 'email')->first();
             $token = $user->createToken('app');
-            
+
             return response()->json(['token'=>$token->accessToken, 'user'=>$user->getAttributes()]);
         }
 
@@ -30,5 +30,8 @@ use App\Models\User;
             return response()->json(['users'=>$users]);
         }        
 
-public function logout(Request $request) { }
+        public function logout(Request $request) {
+
+            auth()->user()->token()->revoke();
+        }
     }
