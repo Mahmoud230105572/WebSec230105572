@@ -14,6 +14,11 @@ use App\Models\User;
     class UsersController extends Controller {
 
         public function login(Request $request) {
+            if(!Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+                return response()->json(['error' => 'Invalid login info.'], 401);
+            }
+            $user = User::where('email', $request->email)->select('id', 'name', 'email')->first();
+            return response()->json(['user'=>$user->getAttributes()]);
         }
 
 
