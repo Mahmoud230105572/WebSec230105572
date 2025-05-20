@@ -18,7 +18,9 @@ use App\Models\User;
                 return response()->json(['error' => 'Invalid login info.'], 401);
             }
             $user = User::where('email', $request->email)->select('id', 'name', 'email')->first();
-            return response()->json(['user'=>$user->getAttributes()]);
+            $token = $user->createToken('app');
+            
+            return response()->json(['token'=>$token->accessToken, 'user'=>$user->getAttributes()]);
         }
 
 
