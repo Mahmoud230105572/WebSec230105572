@@ -23,6 +23,10 @@ use App\Models\User;
 
 
 
-        public function users(Request $request) { }
-        public function logout(Request $request) { }
+        public function users(Request $request) {
+            $users = User::select('id', 'name', 'email')->get()->toArray();
+            return response()->json(['users'=>$users]);
+        }        
+
+public function logout(Request $request) { }
     }
